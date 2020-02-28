@@ -24,11 +24,10 @@ public class BreakingVigenere {
     public static void main(String[] args) {
         // TODO code application logic here
         String prueba = "LNUDVMUYRMUDVLLPXAFZUEFAIOVWVMUOVMUEVMUEZCUDVSYWCIVCFGUCUNYCGALLGRCYTIJTRNNPJQOPJEMZITYLIAYYKRYEFDUDCAMAVRMZEAMBLEXPJCCQIEHPJTYXVNMLAEZTIMUOFRUFC";
-        prueba = "emusitowalvgpwnxeiqichpgmxyaggoqavizdiak"
-                + "judunumtpmsgxusznxeynifshgqvysmtfmyakkzkvsexfqsagomtdmixqkvwrzqurfxkemigpbudvjerbwekylutgjsjqmqshvqzbdpksiygwzubhdexqacgvygxbdqooicgpzuknvivdqisgopiqiykdmpgtoxiyspoebnvizganemmaaqwjgomogsqeqafmtscasvglvrdjgomnhtjqnntvooiparxganzekjqflmjalrkhkxicjmsmdrjejqxrjsyqpnnmyfwnxiifiqgtudtnkvkpmfksiuiywwkztnkpzuunkwkyiaswemyhwqoxtbfiypmcwvyavnkhkeknjkgdwadegbtvueiuvcsvghmeuquemiwvgzkhsrjaarsrsmgbjiyaurfsxqabarzqzpsqhumayrkdwfdegbtvueiuvgsqhuvpgrzumawytmnhfgozyhwtkduvligxwfmwamzvgwjqapsvmmzlwhofiexszaaqwwaekhwrzmaqwjg"
-                + "omogsqccrksranhfgoavnuygzlbmraecnjmubmeemzqyhwjgomnhtgokrvegxipmitfiqwvkpmfksiuiywwgfznnwjqtngtiuvvfmiuiekiyuvpgrlmkrtsuw";
+        prueba = "emusitowalvgpwnxeiqichpgmxyaggoqavizdiakjudunumtpmsgxusznxeynifshgqvysmtfmyakkzkvsexfqsagomtdmixqkvwrzqurfxkemigpbudvjerbwekylutgjsjqmqshvqzbdpksiygwzubhdexqacgvygxbdqooicgpzuknvivdqisgopiqiykdmpgtoxiyspoebnvizganemmaaqwjgomogsqeqafmtscasvglvrdjgomnhtjqnntvooiparxganzekjqflmjalrkhkxicjmsmdrjejqxrjsyqpnnmyfwnxiifiqgtudtnkvkpmfksiuiywwkztnkpzuunkwkyiaswemyhwqoxtbfiypmcwvyavnkhkeknjkgdwadegbtvueiuvcsvghmeuquemiwvgzkhsrjaarsrsmgbjiyaurfsxqabarzqzpsqhumayrkdwfdegbtvueiuvgsqhuvpgrzumawytmnhfgozyhwtkduvligxwfmwamzvgwjqapsvmmzlwhofiexszaaqwwaekhwrzmaqwjgomogsqccrksranhfgoavnuygzlbmraecnjmubmeemzqyhwjgomnhtgokrvegxipmitfiqwvkpmfksiuiywwgfznnwjqtngtiuvvfmiuiekiyuvpgrlmkrtsuw";
         fillVigenereTable();
         int n = keyLength(prueba);
+        System.out.println(n);
         String[] m = crack(prueba, n);
         while (true) {
             int option = Integer.parseInt(JOptionPane.showInputDialog("Eliga una opción: \n"
@@ -46,6 +45,8 @@ public class BreakingVigenere {
             }
         }
     }
+    
+    
 
     /**
      * Returns the most possible key for the encrypted text following Kasiski
@@ -394,14 +395,14 @@ public class BreakingVigenere {
      */
     public static boolean verify(String plain, String encrypted, String key) {
         //Compare plain text between encrypted one 
-        boolean c = false;
-        String e = encrypt(plain, key);
-        if (e.equalsIgnoreCase(encrypted)) {
-            c = true;
+        boolean confirm = false;
+        String encryptedText = encrypt(plain, key);
+        if (encryptedText.equalsIgnoreCase(encrypted)) {
+            confirm = true;
         } else {
-            c = false;
+            confirm = false;
         }
-        return c;
+        return confirm;
     }
 
     /**
