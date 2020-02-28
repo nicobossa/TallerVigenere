@@ -24,6 +24,9 @@ public class BreakingVigenere {
     public static void main(String[] args) {
         // TODO code application logic here
         String prueba = "LNUDVMUYRMUDVLLPXAFZUEFAIOVWVMUOVMUEVMUEZCUDVSYWCIVCFGUCUNYCGALLGRCYTIJTRNNPJQOPJEMZITYLIAYYKRYEFDUDCAMAVRMZEAMBLEXPJCCQIEHPJTYXVNMLAEZTIMUOFRUFC";
+        prueba = "emusitowalvgpwnxeiqichpgmxyaggoqavizdiak"
+                + "judunumtpmsgxusznxeynifshgqvysmtfmyakkzkvsexfqsagomtdmixqkvwrzqurfxkemigpbudvjerbwekylutgjsjqmqshvqzbdpksiygwzubhdexqacgvygxbdqooicgpzuknvivdqisgopiqiykdmpgtoxiyspoebnvizganemmaaqwjgomogsqeqafmtscasvglvrdjgomnhtjqnntvooiparxganzekjqflmjalrkhkxicjmsmdrjejqxrjsyqpnnmyfwnxiifiqgtudtnkvkpmfksiuiywwkztnkpzuunkwkyiaswemyhwqoxtbfiypmcwvyavnkhkeknjkgdwadegbtvueiuvcsvghmeuquemiwvgzkhsrjaarsrsmgbjiyaurfsxqabarzqzpsqhumayrkdwfdegbtvueiuvgsqhuvpgrzumawytmnhfgozyhwtkduvligxwfmwamzvgwjqapsvmmzlwhofiexszaaqwwaekhwrzmaqwjg"
+                + "omogsqccrksranhfgoavnuygzlbmraecnjmubmeemzqyhwjgomnhtgokrvegxipmitfiqwvkpmfksiuiywwgfznnwjqtngtiuvvfmiuiekiyuvpgrlmkrtsuw";
         fillVigenereTable();
         int n = keyLength(prueba);
         String[] m = crack(prueba, n);
