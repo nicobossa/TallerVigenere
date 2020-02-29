@@ -39,8 +39,13 @@ public class BreakingVigenere {
                 case 1:
                     String plainText = JOptionPane.showInputDialog("Texto a cifrar:");
                     String key = JOptionPane.showInputDialog("Clave para el cifrado:");
-                    JOptionPane.showMessageDialog(null, "El texto cifrado es: \n" + encrypt(plainText, key));
-                    System.out.println(encrypt(plainText, key));
+                    if (plainText.length() >= key.length()) {
+                        JOptionPane.showMessageDialog(null, "El texto cifrado es: \n" + encrypt(plainText, key));
+                        System.out.println(encrypt(plainText, key));
+                    } else {
+                        JOptionPane.showMessageDialog(null, "El texto debe ser largo y más que la clave");
+                    }
+
                     break;
                 case 2:
                     String text = JOptionPane.showInputDialog("Texto a conocer el tamaño de la clave:");
@@ -60,9 +65,20 @@ public class BreakingVigenere {
                     break;
                 case 4:
                     String T = JOptionPane.showInputDialog("El Texto a desencriptar es: ");
-                    String[] keyList = crack(T, keyLength(T));
-                    //System.out.println(decrypt(keyList, T));
-                    JOptionPane.showMessageDialog(null, decrypt(keyList, T));
+                    if (T.length() > 100) {
+                        String[] keyList = crack(T, keyLength(T));
+                        String mensaje = "Con las posibles claves: \n";
+                        for (String m : keyList) {
+                            if (m != null) {
+                                mensaje += m + "\n";
+                            }
+                        }
+                        JOptionPane.showMessageDialog(null, mensaje);
+                        JOptionPane.showMessageDialog(null, "El texto mas coherente en el idioma español es: \n" + decrypt(keyList, T));
+                    } else {
+                        JOptionPane.showMessageDialog(null, "El texto debe tener más de 100 caracteres");
+                    }
+                    break;
                 case 0:
                     System.exit(0);
                 default:
@@ -559,13 +575,17 @@ public class BreakingVigenere {
         }
 
         int maxNumber = wordc[0];
+        int position = 0;
         for (int i = 0; i < 20; i++) {
-            if (maxNumber > wordc[i + 1]) {
+            if (maxNumber < wordc[i]) {
                 maxNumber = wordc[i];
+                position = i;
             }
         }
 
-        return text[maxNumber];
+        finalText = text[position];
+
+        return finalText;
     }
 
 }
