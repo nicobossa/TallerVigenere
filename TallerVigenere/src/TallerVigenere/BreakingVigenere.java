@@ -61,7 +61,7 @@ public class BreakingVigenere {
                 case 4:
                     String T = JOptionPane.showInputDialog("El Texto a desencriptar es: ");
                     String[] keyList = crack(T, keyLength(T));
-                    System.out.println(decrypt(keyList, T));
+                    //System.out.println(decrypt(keyList, T));
                     JOptionPane.showMessageDialog(null, decrypt(keyList, T));
                 case 0:
                     System.exit(0);
@@ -513,16 +513,16 @@ public class BreakingVigenere {
                     char plainLetter;
                     int xPosition = -1;
                     int yPosition = -1;
-                    for (int q = 0; q < 27; q++) {
+                    for (int k = 0; k < 27; k++) {
                         plainLetter = divideText[count];
                         keyLetter = iteratedKey[count];
-                        letterVigenere = vigenereCode[0][q].toCharArray()[0];
+                        letterVigenere = vigenereCode[0][k].toCharArray()[0];
 
                         if (plainLetter == letterVigenere) {
-                            yPosition = q;
+                            yPosition = k;
                         }
                         if (keyLetter == letterVigenere) {
-                            xPosition = q;
+                            xPosition = k;
                         }
                         if (yPosition != -1 && xPosition != -1) {
                             textDecrypted += vigenereCode[xPosition][yPosition];
@@ -536,10 +536,9 @@ public class BreakingVigenere {
             textDecrypted = "";
         }
 
-        for (int t = 0; t < 20; t++) {
-
-            int[] wordc = new int[20];
-            if (text[t] != null) {
+        int[] wordc = new int[20];
+        for (int i = 0; i < 20; i++) {
+            if (text[i] != null) {
                 BufferedReader Br;
                 try {
                     String txt;
@@ -547,7 +546,7 @@ public class BreakingVigenere {
                     Br = new BufferedReader(fr);
 
                     while ((txt = Br.readLine()) != null) {
-                        if (text[t].contains(txt)) {
+                        if (text[i].contains(txt)) {
                             word++;
                         }
                     }
@@ -555,15 +554,18 @@ public class BreakingVigenere {
                     System.out.println("Error abriendo conexion en modo Lectura");
                 }
             }
-            wordc[t] = word;
+            wordc[i] = word;
             word = 0;
         }
-        
-        for(int i = 0; i < 20; i++){
-            
+
+        int maxNumber = wordc[0];
+        for (int i = 0; i < 20; i++) {
+            if (maxNumber > wordc[i + 1]) {
+                maxNumber = wordc[i];
+            }
         }
 
-        return finalText;
+        return text[maxNumber];
     }
 
 }
