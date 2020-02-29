@@ -24,24 +24,41 @@ public class BreakingVigenere {
     public static void main(String[] args) {
         // TODO code application logic here
         String prueba = "LNUDVMUYRMUDVLLPXAFZUEFAIOVWVMUOVMUEVMUEZCUDVSYWCIVCFGUCUNYCGALLGRCYTIJTRNNPJQOPJEMZITYLIAYYKRYEFDUDCAMAVRMZEAMBLEXPJCCQIEHPJTYXVNMLAEZTIMUOFRUFC";
-        prueba = "emusitowalvgpwnxeiqichpgmxyaggoqavizdiakjudunumtpmsgxusznxeynifshgqvysmtfmyakkzkvsexfqsagomtdmixqkvwrzqurfxkemigpbudvjerbwekylutgjsjqmqshvqzbdpksiygwzubhdexqacgvygxbdqooicgpzuknvivdqisgopiqiykdmpgtoxiyspoebnvizganemmaaqwjgomogsqeqafmtscasvglvrdjgomnhtjqnntvooiparxganzekjqflmjalrkhkxicjmsmdrjejqxrjsyqpnnmyfwnxiifiqgtudtnkvkpmfksiuiywwkztnkpzuunkwkyiaswemyhwqoxtbfiypmcwvyavnkhkeknjkgdwadegbtvueiuvcsvghmeuquemiwvgzkhsrjaarsrsmgbjiyaurfsxqabarzqzpsqhumayrkdwfdegbtvueiuvgsqhuvpgrzumawytmnhfgozyhwtkduvligxwfmwamzvgwjqapsvmmzlwhofiexszaaqwwaekhwrzmaqwjgomogsqccrksranhfgoavnuygzlbmraecnjmubmeemzqyhwjgomnhtgokrvegxipmitfiqwvkpmfksiuiywwgfznnwjqtngtiuvvfmiuiekiyuvpgrlmkrtsuw";
         fillVigenereTable();
-        int n = keyLength(prueba);
-        System.out.println(n);
-        String[] m = crack(prueba, n);
         while (true) {
             int option = Integer.parseInt(JOptionPane.showInputDialog("Eliga una opción: \n"
                     + "1. Encriptar mensaje\n"
-                    + "2. Conocer la longitud de un texto cifrado"
-                    + ""));
+                    + "2. Conocer la longitud de la clave de un texto cifrado\n"
+                    + "3. Conocer la lista de posibles claves de un texto cifrado sin clave\n"
+                    + "0. Salir del sistema"));
             switch (option) {
                 case 1:
                     String plainText = JOptionPane.showInputDialog("Texto a cifrar:");
                     String key = JOptionPane.showInputDialog("Clave para el cifrado:");
                     JOptionPane.showMessageDialog(null, "El texto cifrado es: \n" + encrypt(plainText, key));
+                    break;
                 case 2:
                     String text = JOptionPane.showInputDialog("Texto a conocer el tamaño de la clave:");
-                    JOptionPane.showMessageDialog(null, "El texto cifrado es: \n" + keyLength(text));
+                    JOptionPane.showMessageDialog(null, "La longitud de la clave es: \n" + keyLength(text));
+                    break;
+                case 3:
+                    String plainT = JOptionPane.showInputDialog("Texto conocer las posibles claves:");
+                    String[] keys = crack(plainT, keyLength(plainT));
+                    String orderedKeys = "";
+                    for(String k: keys){
+                        if(k != null){
+                           orderedKeys += k + "\n"; 
+                        }
+                    }
+                    JOptionPane.showMessageDialog(null, "Las posibles claves son " + crack(plainT, keyLength(plainT)).length + " y son las "
+                            + "siguientes:\n" + orderedKeys);
+                    break;
+                case 0:
+                    System.exit(0);
+                default:
+                    JOptionPane.showMessageDialog(null, "Ingrese una opción válida");
+                    break;
+                    
             }
         }
     }
