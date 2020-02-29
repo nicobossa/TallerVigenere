@@ -5,6 +5,9 @@
  */
 package TallerVigenere;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -30,12 +33,14 @@ public class BreakingVigenere {
                     + "1. Encriptar mensaje\n"
                     + "2. Conocer la longitud de la clave de un texto cifrado\n"
                     + "3. Conocer la lista de posibles claves de un texto cifrado sin clave\n"
+                    + "4. Desencriptar el texto\n"
                     + "0. Salir del sistema"));
             switch (option) {
                 case 1:
                     String plainText = JOptionPane.showInputDialog("Texto a cifrar:");
                     String key = JOptionPane.showInputDialog("Clave para el cifrado:");
                     JOptionPane.showMessageDialog(null, "El texto cifrado es: \n" + encrypt(plainText, key));
+                    System.out.println(encrypt(plainText, key));
                     break;
                 case 2:
                     String text = JOptionPane.showInputDialog("Texto a conocer el tamaño de la clave:");
@@ -45,25 +50,28 @@ public class BreakingVigenere {
                     String plainT = JOptionPane.showInputDialog("Texto conocer las posibles claves:");
                     String[] keys = crack(plainT, keyLength(plainT));
                     String orderedKeys = "";
-                    for(String k: keys){
-                        if(k != null){
-                           orderedKeys += k + "\n"; 
+                    for (String k : keys) {
+                        if (k != null) {
+                            orderedKeys += k + "\n";
                         }
                     }
                     JOptionPane.showMessageDialog(null, "Las posibles claves son " + crack(plainT, keyLength(plainT)).length + " y son las "
                             + "siguientes:\n" + orderedKeys);
                     break;
+                case 4:
+                    String T = JOptionPane.showInputDialog("El Texto a desencriptar es: ");
+                    String[] keyList = crack(T, keyLength(T));
+                    System.out.println(decrypt(keyList, T));
+                    JOptionPane.showMessageDialog(null, decrypt(keyList, T));
                 case 0:
                     System.exit(0);
                 default:
                     JOptionPane.showMessageDialog(null, "Ingrese una opción válida");
                     break;
-                    
+
             }
         }
     }
-    
-    
 
     /**
      * Returns the most possible key for the encrypted text following Kasiski
@@ -341,7 +349,7 @@ public class BreakingVigenere {
 
         int maxNumber;
         String possibleKey;
-        
+
         ArrayList<ArrayList> letters = new ArrayList<>();
         for (int i = 0; i < keylen; i++) {
             ArrayList<String> let = new ArrayList<>();
@@ -382,16 +390,16 @@ public class BreakingVigenere {
                     c++;
                 }
                 c = 0;
-                while(c < 20){
-                    if(key.equalsIgnoreCase(possibleKeys[c])){
-                       confirm = false;
-                       break;
-                    } else{
+                while (c < 20) {
+                    if (key.equalsIgnoreCase(possibleKeys[c])) {
+                        confirm = false;
+                        break;
+                    } else {
                         confirm = true;
-                    }  
+                    }
                     c++;
-                } 
-                if(confirm == true){
+                }
+                if (confirm == true) {
                     possibleKeys[counter] = key;
                     counter++;
                 }
@@ -470,4 +478,92 @@ public class BreakingVigenere {
             System.out.print("\n");
         }
     }
+
+    public static String decrypt(String[] posibleKeys, String encryptText) {
+        //Start encrypting 
+        String[] text = new String[20];
+        int word = 0;
+        String textDecrypted = "";
+        String finalText = "";
+        int count = 0;
+
+        String cleanText = encryptText.toLowerCase().replaceAll("[^a-zA-Z0-9_-]", "");
+
+        char[] divideText = cleanText.toCharArray();
+
+        for (int i = 0; i < 20; i++) {
+            if (posibleKeys[i] != null) {
+
+                char[] divideKey = posibleKeys[i].toCharArray();
+                char[] iteratedKey = new char[divideText.length];
+
+                for (int j = 0; j < divideText.length; j++) {  //Filling iteratedKey with Key 
+                    if (count < divideKey.length) {
+                        iteratedKey[j] = divideKey[count];
+                    } else {
+                        count = 0;
+                        iteratedKey[j] = divideKey[count];
+                    }
+                    count++;
+                }
+                count = 0;
+                while (count < divideText.length) {
+                    char letterVigenere;
+                    char keyLetter;
+                    char plainLetter;
+                    int xPosition = -1;
+                    int yPosition = -1;
+                    for (int q = 0; q < 27; q++) {
+                        plainLetter = divideText[count];
+                        keyLetter = iteratedKey[count];
+                        letterVigenere = vigenereCode[0][q].toCharArray()[0];
+
+                        if (plainLetter == letterVigenere) {
+                            yPosition = q;
+                        }
+                        if (keyLetter == letterVigenere) {
+                            xPosition = q;
+                        }
+                        if (yPosition != -1 && xPosition != -1) {
+                            textDecrypted += vigenereCode[xPosition][yPosition];
+                            break;
+                        }
+                    }
+                    count++;
+                }
+            }
+            text[i] = textDecrypted;
+            textDecrypted = "";
+        }
+
+        for (int t = 0; t < 20; t++) {
+
+            int[] wordc = new int[20];
+            if (text[t] != null) {
+                BufferedReader Br;
+                try {
+                    String txt;
+                    FileReader fr = new FileReader("Diccionario.txt");
+                    Br = new BufferedReader(fr);
+
+                    while ((txt = Br.readLine()) != null) {
+                        if (text[t].contains(txt)) {
+                            word++;
+                        }
+                    }
+                } catch (IOException ex) {
+                    System.out.println("Error abriendo conexion en modo Lectura");
+                }
+            }
+            wordc[t] = word;
+            word = 0;
+        }
+        
+        for(int i = 0; i < 20; i++){
+            
+        }
+
+        return finalText;
+    }
+
 }
