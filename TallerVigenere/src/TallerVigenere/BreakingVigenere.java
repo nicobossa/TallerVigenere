@@ -525,7 +525,9 @@ public class BreakingVigenere {
                 count = 0;
                 while (count < divideText.length) {
                     char letterVigenere;
+                    char cypherLetter = 0;
                     char keyLetter;
+                    boolean found = false;
                     char plainLetter;
                     int xPosition = -1;
                     int yPosition = -1;
@@ -533,15 +535,20 @@ public class BreakingVigenere {
                         plainLetter = divideText[count];
                         keyLetter = iteratedKey[count];
                         letterVigenere = vigenereCode[0][k].toCharArray()[0];
-
-                        if (plainLetter == letterVigenere) {
+                        if(found){
+                           cypherLetter = vigenereCode[xPosition][k].toCharArray()[0]; 
+                        }
+                        
+                        if (keyLetter == letterVigenere && found == false) {
+                            xPosition = k;
+                            k = -1;
+                            found = true;
+                        }
+                        if (plainLetter == cypherLetter){
                             yPosition = k;
                         }
-                        if (keyLetter == letterVigenere) {
-                            xPosition = k;
-                        }
                         if (yPosition != -1 && xPosition != -1) {
-                            textDecrypted += vigenereCode[xPosition][yPosition];
+                            textDecrypted += vigenereCode[0][yPosition];
                             break;
                         }
                     }
